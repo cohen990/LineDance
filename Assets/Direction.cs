@@ -4,7 +4,7 @@ namespace AssemblyCSharp
 {
 	public enum Direction
 	{
-		Motionless,
+		NoDirection,
 		Clockwise,
 		CounterClockwise
 	}

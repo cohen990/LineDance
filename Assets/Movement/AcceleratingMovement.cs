@@ -6,17 +6,27 @@ namespace AssemblyCSharp.Movement
 	{
 		private float _acceleration = 0.2F;
 
-		private float _currentSpeed;
-
 		private Direction _lastKnownDirection;
+
+		private bool _collided;
 
 		public AcceleratingMovement (float topSpeed) : base(topSpeed * 2)
 		{
 			_currentSpeed = 0;
-			_lastKnownDirection = Direction.Motionless;
+			_lastKnownDirection = Direction.NoDirection;
+			_collided = false;
+			_bounceDeceleration = _acceleration * 2;
 		}
 
 		public override float GetVelocity(Direction direction){
+			if (_collided) {
+				return 0;
+			}
+
+			if (direction.Equals (_directionOfBarrier)) {
+				return 0;
+			}
+
 			if (_lastKnownDirection != direction) {
 				_currentSpeed = 0;
 				_lastKnownDirection = direction;
