@@ -51,6 +51,7 @@ public class Move : MonoBehaviour {
 
 	void DoFinishTrigger(Collider2D col){
 		Debug.Log ("you win!");
+		col.gameObject.GetComponent<ParticleSystem> ().Play ();
 		DoNodeTrigger (col);
 	}
 
