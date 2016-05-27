@@ -101,6 +101,12 @@ public class Move : MonoBehaviour {
 		if (Math.Abs (lowestFound - 90) < Math.Abs (lowestFound)) {
 			lowestFound -= 90;
 		}
+		if (Math.Abs (lowestFound + 90) < Math.Abs (lowestFound)) {
+			lowestFound += 90;
+		}
+
+		if (lowestFound < -50) {
+			Debug.Log ("ah fuck");		}
 		return lowestFound;
 	}
 }
