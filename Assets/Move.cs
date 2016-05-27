@@ -105,8 +105,9 @@ public class Move : MonoBehaviour {
 			lowestFound += 90;
 		}
 
-		if (lowestFound < -50) {
-			Debug.Log ("ah fuck");		}
+		if (Math.Abs(lowestFound) >50) {
+			throw new ExecutionEngineException ("This should never happen! It's that bug in the snap to bullshit again");
+		}
 		return lowestFound;
 	}
 }
