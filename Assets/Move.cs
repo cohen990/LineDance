@@ -9,7 +9,7 @@ public class Move : MonoBehaviour {
 	private Vector3 _centreOfRotation;
 	private MovementBase _movement;
 	private Direction _currentDirection;
-
+	private bool _hasFinishedLevel = false;
 
 	// Use this for initialization
 	void Start () {
@@ -19,6 +19,9 @@ public class Move : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+//		if (_hasFinishedLevel) {
+//			return;
+//		}
 		if (_movement.IsBouncing()) {
 			RotateRigidbody2D (_movement.GetBounceVelocity (), _centreOfRotation);
 		}
@@ -52,6 +55,7 @@ public class Move : MonoBehaviour {
 	void DoFinishTrigger(Collider2D col){
 		Debug.Log ("you win!");
 		col.gameObject.GetComponent<ParticleSystem> ().Play ();
+		_hasFinishedLevel = true;
 		DoNodeTrigger (col);
 	}
 
