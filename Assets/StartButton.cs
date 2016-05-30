@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
-using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class StartButton : MonoBehaviour {
 	public void StartGame(){
-		Application.LoadLevel("line");
+		SceneManager.LoadScene(LevelNames.First());
 	}
 }
