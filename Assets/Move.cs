@@ -11,10 +11,13 @@ public class Move : MonoBehaviour {
 	private Direction _currentDirection;
 	private IEndOfLevel _endOfLevel;
 
+	public Move(){
+		_movement = new AcceleratingMovement (4);
+	}
+
 	// Use this for initialization
 	void Start () {
 		_centreOfRotation = GetComponent<Rigidbody2D> ().transform.position;
-		_movement = new AcceleratingMovement (4);
 		_endOfLevel = new EndOfLevel (LevelNames.Next());
 	}
 	
@@ -55,7 +58,6 @@ public class Move : MonoBehaviour {
 	}
 
 	void DoFinishTrigger(Collider2D col){
-		Debug.Log ("you win!");
 		col.gameObject.GetComponent<ParticleSystem> ().Play ();
 		_endOfLevel.AlertOfEnd ();
 		DoNodeTrigger (col);
@@ -92,9 +94,9 @@ public class Move : MonoBehaviour {
 	}
 
 	private double CalculateRemainingRotation(Vector3 pivotPosition, Vector3 finalPosition){
-		var x = pivotPosition.x - finalPosition.x;
-		var y = pivotPosition.y - finalPosition.y;
-		var expectedAngleRads = Math.Atan (y / x);
+		var deltaX = pivotPosition.x - finalPosition.x;
+		var deltaY = pivotPosition.y - finalPosition.y;
+		var expectedAngleRads = Math.Atan (deltaY / deltaX);
 		var expectedAngle = 180*expectedAngleRads / Math.PI;
 		var currentAngle = GetComponent<Rigidbody2D> ().transform.eulerAngles.z;
 		var remainingRotation = currentAngle - expectedAngle;
@@ -106,7 +108,6 @@ public class Move : MonoBehaviour {
 		if (Math.Abs (lowestFound + 90) < Math.Abs (lowestFound)) {
 			lowestFound += 90;
 		}
-
 		if (Math.Abs(lowestFound) >50) {
 			throw new ExecutionEngineException ("This should never happen! It's that bug in the snap to bullshit again");
 		}
