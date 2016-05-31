@@ -10,6 +10,8 @@ public static class LevelNames
 		_levels = new List<string> () {
 			"level1",
 			"level2",
+			"level3",
+			"level4",
 			"line"
 		};
 		_enumerator = _levels.GetEnumerator ();
