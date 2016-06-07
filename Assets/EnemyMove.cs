@@ -4,41 +4,27 @@ using System;
 using AssemblyCSharp;
 using AssemblyCSharp.Movement;
 
-public class Move : MonoBehaviour {
-	private ControlBase _controls = new MouseControl();
+public class EnemyMove : MonoBehaviour {
 	private Vector3 _centreOfRotation;
 	private MovementBase _movement;
 	private Direction _currentDirection;
-	private IEndOfLevel _endOfLevel;
 
-	public Move(){
+	public EnemyMove(){
 		_movement = new AcceleratingMovement (4);
 	}
 
 	// Use this for initialization
 	void Start () {
 		_centreOfRotation = GetComponent<Rigidbody2D> ().transform.position;
-		_endOfLevel = new EndOfLevel (LevelNames.Next());
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
-		if (_endOfLevel.IsEndOfLevel()) {
-			_endOfLevel.GetAction ().Invoke ();
-			return;
-		}
 		if (_movement.IsBouncing()) {
 			RotateRigidbody2D (_movement.GetBounceVelocity (), _centreOfRotation);
 		}
-		else if (_controls.isTurningCounterClockwise) {
-  			_currentDirection = Direction.CounterClockwise;
-			RotateRigidbody2D (_movement.GetVelocity (Direction.CounterClockwise), _centreOfRotation);
-		} else if (_controls.isTurningClockwise) {
-			_currentDirection = Direction.Clockwise;
-			RotateRigidbody2D (-_movement.GetVelocity (Direction.Clockwise), _centreOfRotation);
-		} else {
-			_movement.AlertOfStoppedMoving();
-		}
+		_currentDirection = Direction.CounterClockwise;
+		RotateRigidbody2D (_movement.GetVelocity (Direction.CounterClockwise), _centreOfRotation);
 	}
 
 	void OnTriggerEnter2D(Collider2D col){
@@ -47,27 +33,8 @@ public class Move : MonoBehaviour {
 		} else if (col.gameObject.tag.ToLower () == "barrier") {
 			DoBarrierTrigger (col);
 		} else if (col.gameObject.tag.ToLower () == "finish") {
-			DoFinishTrigger (col);
-		} else if (col.gameObject.tag.ToLower () == "enemy") {
-			DoEnemyTrigger (col);
+			DoNodeTrigger (col);
 		}
-	}
-
-	void OnTriggerExit2D(Collider2D col){
-		if (col.gameObject.tag.ToLower () == "barrier") {
-			_movement.AlertOfLeavingBarrier ();
-		}
-	}
-
-	void DoEnemyTrigger (Collider2D col)
-	{
-		Debug.Log ("die");
-	}
-
-	void DoFinishTrigger(Collider2D col){
-		col.gameObject.GetComponent<ParticleSystem> ().Play ();
-		_endOfLevel.AlertOfEnd ();
-		DoNodeTrigger (col);
 	}
 
 	void DoNodeTrigger(Collider2D col){
@@ -82,7 +49,7 @@ public class Move : MonoBehaviour {
 	}
 
 	private void SnapToCentre(Collider2D collider){
- 		var pivotPosition = _centreOfRotation;
+		var pivotPosition = _centreOfRotation;
 		var finalPosition = collider.gameObject.transform.position;
 		if (finalPosition.Equals (pivotPosition)) {
 			throw new ExecutionEngineException ("This only ever happens if you have duplicated nodes directly on top of each other.");
