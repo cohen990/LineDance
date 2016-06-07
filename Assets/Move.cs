@@ -48,6 +48,8 @@ public class Move : MonoBehaviour {
 			DoBarrierTrigger (col);
 		} else if (col.gameObject.tag.ToLower () == "finish") {
 			DoFinishTrigger (col);
+		} else if (col.gameObject.tag.ToLower () == "enemy") {
+			DoEnemyTrigger (col);
 		}
 	}
 
@@ -55,6 +57,11 @@ public class Move : MonoBehaviour {
 		if (col.gameObject.tag.ToLower () == "barrier") {
 			_movement.AlertOfLeavingBarrier ();
 		}
+	}
+
+	void DoEnemyTrigger (Collider2D col)
+	{
+		Debug.Log ("die");
 	}
 
 	void DoFinishTrigger(Collider2D col){
