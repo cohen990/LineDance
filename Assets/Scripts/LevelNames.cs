@@ -31,4 +31,8 @@ public static class LevelNames
 
 		return "finished";
 	}
+
+	public static string Current(){
+		return _enumerator.Current;
+	}
 }

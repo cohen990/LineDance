@@ -4,22 +4,23 @@ namespace AssemblyCSharp.Movement
 {
 	public class AcceleratingMovement : MovementBase
 	{
-		private float _acceleration = 0.2F;
+		private float _acceleration;
 
 		private Direction _lastKnownDirection;
 
 		private bool _collided;
 
-		public AcceleratingMovement (float topSpeed) : base(topSpeed * 2)
+		public AcceleratingMovement (float topSpeed, float acceleration = 0.2F) : base(topSpeed * 2)
 		{
 			_currentSpeed = 0;
 			_lastKnownDirection = Direction.NoDirection;
 			_collided = false;
+			_acceleration = acceleration;
 			_bounceDeceleration = _acceleration * 2;
 		}
 
 		public override float GetVelocity(Direction direction){
-			if (_collided) {
+			if (!_canMove || _collided) {
 				return 0;
 			}
 

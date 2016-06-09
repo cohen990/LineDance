@@ -3,6 +3,8 @@ using System.Collections;
 using System;
 using AssemblyCSharp;
 using AssemblyCSharp.Movement;
+using System.Diagnostics;
+using UnityEngine.SceneManagement;
 
 public class Move : MonoBehaviour {
 	private ControlBase _controls = new MouseControl();
@@ -11,6 +13,8 @@ public class Move : MonoBehaviour {
 	private Direction _currentDirection;
 	private IEndOfLevel _endOfLevel;
 	private bool _isDead;
+	private Stopwatch _afterDeathStopwatch;
+	private int _waitAfterDeath = 2000;
 
 	public Move(){
 		_movement = new AcceleratingMovement (4);
@@ -19,12 +23,18 @@ public class Move : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		_centreOfRotation = GetComponent<Rigidbody2D> ().transform.position;
-		_endOfLevel = new EndOfLevel (LevelNames.Next());
+		_endOfLevel = new EndOfLevel ();
 		_isDead = false;
+		_movement.AlertOfStartOfLevel ();
 	}
 	
 	// Update is called once per frame
 	void Update () {
+		if (_isDead) {
+			if (_afterDeathStopwatch.ElapsedMilliseconds > _waitAfterDeath) {
+				SceneManager.LoadScene (LevelNames.Current());
+			}
+		}
 		if (_endOfLevel.IsEndOfLevel()) {
 			_endOfLevel.GetAction ().Invoke ();
 			return;
@@ -66,8 +76,10 @@ public class Move : MonoBehaviour {
 		if (!_isDead) {
 			var animator = GetComponent<Animator> ();
 			animator.Play ("Die");
-			Debug.Log ("die");
+			UnityEngine.Debug.Log ("die");
 			_isDead = true;
+			_movement.AlertOfDead ();
+			_afterDeathStopwatch = Stopwatch.StartNew ();
 		}
 	}
 
@@ -84,7 +96,6 @@ public class Move : MonoBehaviour {
 	}
 
 	void DoBarrierTrigger(Collider2D col){
-		Debug.Log ("hit a barrier");
 		_movement.AlertOfHitBarrier (_currentDirection);
 	}
 
@@ -103,7 +114,7 @@ public class Move : MonoBehaviour {
 			GetComponent<Rigidbody2D> ().transform.RotateAround (centre, new Vector3 (0, 0, 1), angle);
 		}
 		catch(Exception e){
-			Debug.Log (e);
+			UnityEngine.Debug.Log (e);
 		}
 	}
 
