@@ -10,12 +10,14 @@ namespace AssemblyCSharp.Movement
 		private Direction _bounceDirection;
 		private bool _isBouncing;
 		protected Direction _directionOfBarrier;
+		protected bool _canMove;
 
 		public MovementBase(float topSpeed){
 			_topSpeed = topSpeed;
 			_bounceDeceleration = 0.4F;
 			_currentSpeed = topSpeed;
 			_isBouncing = false;
+			_canMove = true;
 		}
 
 		public abstract float GetVelocity (Direction direction);
@@ -23,6 +25,14 @@ namespace AssemblyCSharp.Movement
 		public abstract void AlertOfHitNode ();
 
 		public abstract void AlertOfStoppedMoving ();
+
+		public virtual void AlertOfStartOfLevel (){
+			_canMove = true;
+		}
+
+		public virtual void AlertOfDead (){
+			_canMove = false;
+		}
 
 		public virtual void AlertOfHitBarrier (Direction direction){
 			_isBouncing = true;

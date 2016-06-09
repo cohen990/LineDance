@@ -9,10 +9,8 @@ namespace AssemblyCSharp
 	{
 		private bool _hasEnded = false;
 		private Stopwatch _watch = new Stopwatch();
-		private string _nextLevel;
 
-		public EndOfLevel(string nextLevel){
-			_nextLevel = nextLevel;
+		public EndOfLevel(){
 		}
 
 		public void AlertOfEnd(){
@@ -28,7 +26,7 @@ namespace AssemblyCSharp
 
 		public Action GetAction(){
 			if (_watch.ElapsedMilliseconds > 2000) {
-				return () => SceneManager.LoadScene (_nextLevel);
+				return () => SceneManager.LoadScene (LevelNames.Next());
 			}
 
 			return () => {
