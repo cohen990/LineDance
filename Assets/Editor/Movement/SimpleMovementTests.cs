@@ -13,7 +13,7 @@ namespace AssemblyCSharpEditor
 		public void GetVelocity_GoingClockwise_ReturnsTopSpeed(){
 			var topSpeed = Convert.ToSingle(new Random().Next());
 
-			var sut = new SimpleMovement (topSpeed);
+			var sut = new SimpleMovement (null, topSpeed);
 
 			var result = sut.GetVelocity (Direction.Clockwise);
 
@@ -24,7 +24,7 @@ namespace AssemblyCSharpEditor
 		public void GetVelocity_GoingCounterClockwise_ReturnsTopSpeed(){
 			var topSpeed = Convert.ToSingle(new Random().Next());
 
-			var sut = new SimpleMovement (topSpeed);
+			var sut = new SimpleMovement (null, topSpeed);
 
 			var result = sut.GetVelocity (Direction.CounterClockwise);
 
@@ -35,7 +35,7 @@ namespace AssemblyCSharpEditor
 		public void GetVelocity_GoingNoDirection_ReturnsTopSpeed(){
 			var topSpeed = Convert.ToSingle(new Random().Next());
 
-			var sut = new SimpleMovement (topSpeed);
+			var sut = new SimpleMovement (null, topSpeed);
 
 			var result = sut.GetVelocity (Direction.NoDirection);
 

@@ -1,10 +1,11 @@
 ﻿using System;
+using UnityEngine;
 
 namespace AssemblyCSharp.Movement
 {
 	public class SimpleMovement : MovementBase
 	{
-		public SimpleMovement (float topSpeed) : base(topSpeed)
+		public SimpleMovement (Rigidbody2D subject, float topSpeed) : base(subject, topSpeed)
 		{
 		}
 
