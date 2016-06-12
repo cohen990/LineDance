@@ -14,7 +14,7 @@ namespace AssemblyCSharpEditor
 			var topSpeed = int.MaxValue;
 			var acceleration = Convert.ToSingle(new Random().NextDouble());
 
-			var sut = new AcceleratingMovement (topSpeed, acceleration);
+			var sut = new AcceleratingMovement (null, topSpeed, acceleration);
 
 			var result = sut.GetVelocity (Direction.Clockwise);
 
@@ -26,7 +26,7 @@ namespace AssemblyCSharpEditor
 			var topSpeed = int.MaxValue;
 			var acceleration = Convert.ToSingle(new Random().NextDouble());
 
-			var sut = new AcceleratingMovement (topSpeed, acceleration);
+			var sut = new AcceleratingMovement (null, topSpeed, acceleration);
 
 			sut.GetVelocity (Direction.Clockwise);
 			var result = sut.GetVelocity (Direction.Clockwise);
@@ -39,7 +39,7 @@ namespace AssemblyCSharpEditor
 			var topSpeed = 0.8F;
 			var acceleration = 0.7F;
 
-			var sut = new AcceleratingMovement (topSpeed, acceleration);
+			var sut = new AcceleratingMovement (null, topSpeed, acceleration);
 
 			sut.GetVelocity (Direction.Clockwise);
 			var result = sut.GetVelocity (Direction.Clockwise);
@@ -52,7 +52,7 @@ namespace AssemblyCSharpEditor
 			var topSpeed = int.MaxValue;
 			var acceleration = 0.1F;
 
-			var sut = new AcceleratingMovement (topSpeed, acceleration);
+			var sut = new AcceleratingMovement (null, topSpeed, acceleration);
 
 			sut.GetVelocity (Direction.Clockwise);
 			sut.GetVelocity (Direction.Clockwise);
@@ -68,7 +68,7 @@ namespace AssemblyCSharpEditor
 			var topSpeed = int.MaxValue;
 			var acceleration = 0.1F;
 
-			var sut = new AcceleratingMovement (topSpeed, acceleration);
+			var sut = new AcceleratingMovement (null, topSpeed, acceleration);
 
 			sut.GetVelocity (Direction.Clockwise);
 			sut.GetVelocity (Direction.Clockwise);
@@ -85,7 +85,7 @@ namespace AssemblyCSharpEditor
 			var topSpeed = int.MaxValue;
 			var acceleration = 0.1F;
 
-			var sut = new AcceleratingMovement (topSpeed, acceleration);
+			var sut = new AcceleratingMovement (null, topSpeed, acceleration);
 
 			sut.GetVelocity (Direction.Clockwise);
 			sut.GetVelocity (Direction.Clockwise);
