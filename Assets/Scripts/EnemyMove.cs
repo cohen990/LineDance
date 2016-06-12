@@ -24,7 +24,7 @@ public class EnemyMove : MonoBehaviour {
 		if (_movement.IsBouncing()) {
 			_movement.Bounce (_centreOfRotation);
 		}
-		_movement.Turn (DefaultDirection, _centreOfRotation);
+		_movement.Turn (_currentDirection, _centreOfRotation);
 	}
 
 	void OnTriggerEnter2D(Collider2D col){
@@ -44,7 +44,16 @@ public class EnemyMove : MonoBehaviour {
 	}
 
 	void DoBarrierTrigger(Collider2D col){
-		Debug.Log ("hit a barrier");
 		_movement.AlertOfHitBarrier (_currentDirection);
+		ReverseDirection ();
+	}
+
+	void ReverseDirection(){
+		if (_currentDirection == Direction.Clockwise) {
+			_currentDirection = Direction.CounterClockwise;
+		}
+		else if (_currentDirection == Direction.CounterClockwise) {
+			_currentDirection = Direction.Clockwise;
+		}
 	}
 }
