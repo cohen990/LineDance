@@ -87,6 +87,8 @@ public class Player : MonoBehaviour {
 		_movement.AlertOfHitNode ();
 		_movement.SnapToCentre (col.gameObject.transform.position, _centreOfRotation);
 		_centreOfRotation = col.gameObject.transform.position;
+		var animator = col.gameObject.GetComponent<Animator> ();
+		animator.Play ("Connect");
 	}
 
 	void DoBarrierTrigger(Collider2D col){
