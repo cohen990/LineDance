@@ -8,30 +8,28 @@ namespace AssemblyCSharp
 	{
 		public override bool isTurningClockwise {
 			get{
-				var input = Input.touches.LastOrDefault ();
-				if (!input.Equals(default(Touch)))
-				{
-					if(input.position.x > Screen.width/2)
-					{
-						return true;
+				if (Input.touchCount == 1) {
+					var input = Input.touches.LastOrDefault ();
+					if (!input.Equals (default(Touch))) {
+						if (input.position.x > Screen.width / 2) {
+							return true;
+						}
 					}
 				}
-
 				return false;
 			}
 		}
 
 		public override bool isTurningCounterClockwise {
 			get{ 
-				var input = Input.touches.LastOrDefault ();
-				if (!input.Equals(default(Touch)))
-				{
-					if(input.position.x < Screen.width/2)
-					{
-						return true;
+				if (Input.touchCount == 1) {
+					var input = Input.touches.LastOrDefault ();
+					if (!input.Equals (default(Touch))) {
+						if (input.position.x < Screen.width / 2) {
+							return true;
+						}
 					}
 				}
-
 				return false;
 			}
 		}
