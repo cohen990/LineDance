@@ -14,7 +14,9 @@ public static class LevelNames
 			"level4",
 			"level5",
 			"level6",
-			"level7"
+			"level7",
+			"level8",
+			"level9"
 		};
 		_enumerator = _levels.GetEnumerator ();
 	}
