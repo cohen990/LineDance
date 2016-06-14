@@ -76,7 +76,7 @@ namespace AssemblyCSharp.Movement
 			RotateRigidbody2D (GetBounceVelocity (), centreOfRotation);
 		}
 
-		private void RotateRigidbody2D(float angle, Vector3 centre){
+		public void RotateRigidbody2D(float angle, Vector3 centre){
 			try{
 				_target.transform.RotateAround (centre, new Vector3 (0, 0, 1), angle);
 			}

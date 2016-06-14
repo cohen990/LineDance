@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/levels/level9.unity
+- path: Assets/movingnodetest.unity
   isLoaded: 1
   isActive: 1
