@@ -7,7 +7,8 @@ using System.Diagnostics;
 using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour {
-	private ControlBase _controls = new MouseControl();
+	private ControlBase _controls;
+	internal GameObject ConnectedNode;
 	private Vector3 _centreOfRotation;
 	private MovementBase _movement;
 	private Direction _currentDirection;
@@ -15,12 +16,20 @@ public class Player : MonoBehaviour {
 	private bool _isDead;
 	private Stopwatch _afterDeathStopwatch;
 	private int _waitAfterDeath = 2000;
+	public ControlType ControlType;
+	private bool _isBeingCarried = false;
+	private CarryProperties _carryProperties;
 
 	public Player(){
 	}
 
 	// Use this for initialization
 	void Start () {
+		if (ControlType == ControlType.Mouse) {
+			_controls = new MouseControl ();
+		} else if (ControlType == ControlType.Touch) {
+			_controls = new TouchControl ();
+		}
 		_movement = new AcceleratingMovement (GetComponent<Rigidbody2D>(), 4);
 		_centreOfRotation = GetComponent<Rigidbody2D> ().transform.position;
 		_endOfLevel = new EndOfLevel ();
@@ -45,17 +54,23 @@ public class Player : MonoBehaviour {
 			_currentDirection = _controls.turningDirection;
 			_movement.Turn (_currentDirection, _centreOfRotation);
 		}
+		if (_isBeingCarried) {
+			DoCarryMotion ();
+		}
 	}
 
 	void OnTriggerEnter2D(Collider2D col){
-		if (col.gameObject.tag.ToLower () == "node") {
-			DoNodeTrigger (col);
-		} else if (col.gameObject.tag.ToLower () == "barrier") {
+		if (col.gameObject.tag.ToLower () == "barrier") {
 			DoBarrierTrigger (col);
 		} else if (col.gameObject.tag.ToLower () == "finish") {
 			DoFinishTrigger (col);
 		} else if (col.gameObject.tag.ToLower () == "enemy") {
 			DoEnemyTrigger (col);
+		} else if (col.gameObject.tag.ToLower () == "movingnode") {
+			DoMovingNodeTrigger (col);
+		}
+		else if (col.gameObject.tag.ToLower () == "node") {
+			DoNodeTrigger (col.gameObject);
 		}
 	}
 
@@ -80,18 +95,38 @@ public class Player : MonoBehaviour {
 	void DoFinishTrigger(Collider2D col){
 		col.gameObject.GetComponent<ParticleSystem> ().Play ();
 		_endOfLevel.AlertOfEnd ();
-		DoNodeTrigger (col);
+		DoNodeTrigger (col.gameObject);
 	}
 
-	void DoNodeTrigger(Collider2D col){
+	private void DoNodeTrigger(GameObject node){
 		_movement.AlertOfHitNode ();
-		_movement.SnapToCentre (col.gameObject.transform.position, _centreOfRotation);
-		_centreOfRotation = col.gameObject.transform.position;
-		var animator = col.gameObject.GetComponent<Animator> ();
-		animator.Play ("Connect");
+		_movement.SnapToCentre (node.transform.position, _centreOfRotation);
+		_centreOfRotation = node.transform.position;
+		var animator = node.GetComponent<Animator> ();
+		ConnectedNode = node;
+		_isBeingCarried = false;
+		if (animator != null) {
+			animator.Play ("Connect");
+		}
 	}
 
 	void DoBarrierTrigger(Collider2D col){
 		_movement.AlertOfHitBarrier (_currentDirection);
+	}
+
+	void DoMovingNodeTrigger (Collider2D col)
+	{
+		var moveScript = col.gameObject.GetComponent<MoveInCircle> ();
+		DoNodeTrigger (col.gameObject);
+		_isBeingCarried = true;
+		_carryProperties = new CarryProperties (moveScript.Centre, moveScript.Speed, moveScript.Direction);
+	}
+
+	void DoCarryMotion ()
+	{
+		if (_carryProperties.Direction == Direction.Clockwise) {
+			gameObject.transform.RotateAround (_carryProperties.Centre, new Vector3 (0, 0, 1), -_carryProperties.Speed);
+		}
+		gameObject.transform.RotateAround (_carryProperties.Centre, new Vector3 (0, 0, 1), _carryProperties.Speed);
 	}
 }
