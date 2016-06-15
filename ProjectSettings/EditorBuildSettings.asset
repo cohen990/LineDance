@@ -27,3 +27,5 @@ EditorBuildSettings:
     path: Assets/levels/level9.unity
   - enabled: 1
     path: Assets/levels/level8.unity
+  - enabled: 1
+    path: Assets/levels/level10.unity
