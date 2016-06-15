@@ -18,20 +18,22 @@ public class Player : MonoBehaviour {
 	private int _waitAfterDeath = 2000;
 	public ControlType ControlType;
 	private bool _isBeingCarried = false;
-	private CarryProperties _carryProperties;
+	private Rigidbody2D _rigidBody;
+	private Vector3 _previousCarrierPosition;
 
 	public Player(){
 	}
 
 	// Use this for initialization
 	void Start () {
+		_rigidBody = gameObject.GetComponent<Rigidbody2D> ();
 		if (ControlType == ControlType.Mouse) {
 			_controls = new MouseControl ();
 		} else if (ControlType == ControlType.Touch) {
 			_controls = new TouchControl ();
 		}
-		_movement = new AcceleratingMovement (GetComponent<Rigidbody2D>(), 4);
-		_centreOfRotation = GetComponent<Rigidbody2D> ().transform.position;
+		_movement = new AcceleratingMovement (_rigidBody, 4);
+		_centreOfRotation = _rigidBody.transform.position;
 		_endOfLevel = new EndOfLevel ();
 		_isDead = false;
 		_movement.AlertOfStartOfLevel ();
@@ -119,14 +121,16 @@ public class Player : MonoBehaviour {
 		var moveScript = col.gameObject.GetComponent<MoveInCircle> ();
 		DoNodeTrigger (col.gameObject);
 		_isBeingCarried = true;
-		_carryProperties = new CarryProperties (moveScript.Centre, moveScript.Speed, moveScript.Direction);
+		_previousCarrierPosition = col.gameObject.transform.position;
 	}
 
 	void DoCarryMotion ()
 	{
-		if (_carryProperties.Direction == Direction.Clockwise) {
-			gameObject.transform.RotateAround (_carryProperties.Centre, new Vector3 (0, 0, 1), -_carryProperties.Speed);
+		if (!_previousCarrierPosition.Equals (ConnectedNode.transform.position)) {
+			var difference = ConnectedNode.transform.position - _previousCarrierPosition;
+			_rigidBody.transform.position += difference;
+			_centreOfRotation = ConnectedNode.transform.position;
 		}
-		gameObject.transform.RotateAround (_carryProperties.Centre, new Vector3 (0, 0, 1), _carryProperties.Speed);
+		_previousCarrierPosition = ConnectedNode.transform.position;
 	}
 }
