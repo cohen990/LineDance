@@ -104,8 +104,14 @@ public class Player : MonoBehaviour {
 		_movement.AlertOfHitNode ();
 		_movement.SnapToCentre (node.transform.position, _centreOfRotation);
 		_centreOfRotation = node.transform.position;
-		var animator = node.GetComponent<Animator> ();
+
+		if (ConnectedNode != null) {
+			ConnectedNode.GetComponent<Animator> ().Play ("Disable");
+			ConnectedNode.gameObject.GetComponent<Animator> ().Play ("Disable");
+		}
 		ConnectedNode = node;
+
+		var animator = node.GetComponent<Animator> ();
 		_isBeingCarried = false;
 		if (animator != null) {
 			animator.Play ("Connect");
