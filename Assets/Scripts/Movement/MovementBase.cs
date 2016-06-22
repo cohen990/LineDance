@@ -96,7 +96,7 @@ namespace AssemblyCSharp.Movement
 			}
 		}
 
-		public void SnapToCentre(Vector3 position, Vector3 centreOfRotation){
+		public Vector3 SnapToCentre(Vector3 position, Vector3 centreOfRotation){
 			var pivotPosition = centreOfRotation;
 			var finalPosition = position;
 			if (finalPosition.Equals (pivotPosition)) {
@@ -105,6 +105,8 @@ namespace AssemblyCSharp.Movement
 			var remainingRotation = CalculateRemainingRotation (pivotPosition, finalPosition);
 
 			RotateRigidbody2D (- Convert.ToSingle(remainingRotation), centreOfRotation);
+
+			return position;
 		}
 
 

@@ -8,7 +8,6 @@ using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour {
 	private ControlBase _controls;
-	internal GameObject ConnectedNode;
 	private Vector3 _centreOfRotation;
 	private MovementBase _movement;
 	private Direction _currentDirection;
@@ -20,6 +19,7 @@ public class Player : MonoBehaviour {
 	private bool _isBeingCarried = false;
 	private Rigidbody2D _rigidBody;
 	private Vector3 _previousCarrierPosition;
+	internal NodeController ConnectedNodeController;
 
 	public Player(){
 	}
@@ -102,20 +102,15 @@ public class Player : MonoBehaviour {
 
 	private void DoNodeTrigger(GameObject node){
 		_movement.AlertOfHitNode ();
-		_movement.SnapToCentre (node.transform.position, _centreOfRotation);
-		_centreOfRotation = node.transform.position;
+		_centreOfRotation = _movement.SnapToCentre (node.transform.position, _centreOfRotation);
 
-		if (ConnectedNode != null) {
-			ConnectedNode.GetComponent<Animator> ().Play ("Disable");
-			ConnectedNode.gameObject.GetComponent<Animator> ().Play ("Disable");
+		if (ConnectedNodeController != null) {
+			ConnectedNodeController.Disconnect ();
 		}
-		ConnectedNode = node;
+		ConnectedNodeController = node.GetComponent<NodeController> ();
 
-		var animator = node.GetComponent<Animator> ();
+		ConnectedNodeController.Connect ();
 		_isBeingCarried = false;
-		if (animator != null) {
-			animator.Play ("Connect");
-		}
 	}
 
 	void DoBarrierTrigger(Collider2D col){
@@ -132,11 +127,11 @@ public class Player : MonoBehaviour {
 
 	void DoCarryMotion ()
 	{
-		if (!_previousCarrierPosition.Equals (ConnectedNode.transform.position)) {
-			var difference = ConnectedNode.transform.position - _previousCarrierPosition;
+		if (!_previousCarrierPosition.Equals (ConnectedNodeController.NodePosition)) {
+			var difference = ConnectedNodeController.NodePosition - _previousCarrierPosition;
 			_rigidBody.transform.position += difference;
-			_centreOfRotation = ConnectedNode.transform.position;
+			_centreOfRotation = ConnectedNodeController.NodePosition;
 		}
-		_previousCarrierPosition = ConnectedNode.transform.position;
+		_previousCarrierPosition = ConnectedNodeController.NodePosition;
 	}
 }
