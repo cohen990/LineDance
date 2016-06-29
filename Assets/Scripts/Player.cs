@@ -19,7 +19,7 @@ public class Player : MonoBehaviour {
 	private bool _isBeingCarried = false;
 	private Rigidbody2D _rigidBody;
 	private Vector3 _previousCarrierPosition;
-	internal NodeController ConnectedNodeController;
+	internal INodeController ConnectedNodeController;
 
 	public Player(){
 	}
@@ -95,13 +95,12 @@ public class Player : MonoBehaviour {
 	}
 
 	void DoFinishTrigger(Collider2D col){
-		col.gameObject.GetComponent<ParticleSystem> ().Play ();
 		_endOfLevel.AlertOfEnd ();
 		DoNodeTrigger (col.gameObject);
 	}
 
 	private void DoNodeTrigger(GameObject node){
-		var newNodeController = node.GetComponent<NodeController> ();
+		var newNodeController = node.GetComponent<INodeController> ();
 		if (newNodeController.IsEnabled) {
 
 			_movement.AlertOfHitNode ();
