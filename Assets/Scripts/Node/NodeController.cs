@@ -4,7 +4,7 @@ using System.Collections;
 
 namespace AssemblyCSharp
 {
-	public class NodeController : MonoBehaviour
+	public class NodeController : MonoBehaviour, INodeController
 	{
 		private Animator _animator;
 		public Vector3 NodePosition {get{ return gameObject.transform.position; }}
@@ -12,7 +12,7 @@ namespace AssemblyCSharp
 		private int _connectHash = Animator.StringToHash ("Connect");
 		private int _reenableHash = Animator.StringToHash ("Reenable");
 		public float TimeDisabledAfterDisconnect = 1.5f;
-		public bool IsEnabled = true;
+		public bool IsEnabled { get; private set; }
 
 		public void Start(){
 			_animator = GetComponent<Animator> ();
