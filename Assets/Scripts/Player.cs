@@ -101,16 +101,20 @@ public class Player : MonoBehaviour {
 	}
 
 	private void DoNodeTrigger(GameObject node){
-		_movement.AlertOfHitNode ();
-		_centreOfRotation = _movement.SnapToCentre (node.transform.position, _centreOfRotation);
+		var newNodeController = node.GetComponent<NodeController> ();
+		if (newNodeController.IsEnabled) {
 
-		if (ConnectedNodeController != null) {
-			ConnectedNodeController.Disconnect ();
+			_movement.AlertOfHitNode ();
+			_centreOfRotation = _movement.SnapToCentre (node.transform.position, _centreOfRotation);
+
+			if (ConnectedNodeController != null) {
+				ConnectedNodeController.Disconnect ();
+			}
+			ConnectedNodeController = newNodeController;
+
+			ConnectedNodeController.Connect ();
+			_isBeingCarried = false;
 		}
-		ConnectedNodeController = node.GetComponent<NodeController> ();
-
-		ConnectedNodeController.Connect ();
-		_isBeingCarried = false;
 	}
 
 	void DoBarrierTrigger(Collider2D col){
