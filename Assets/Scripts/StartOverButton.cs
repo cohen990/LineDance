@@ -3,6 +3,6 @@ using UnityEngine.SceneManagement;
 
 public class StartOverButton : MonoBehaviour {
 	public void StartGame(){
-		SceneManager.LoadScene(LevelNames.First());
+		SceneManager.LoadScene("lineMain");
 	}
 }

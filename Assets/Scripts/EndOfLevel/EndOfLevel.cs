@@ -26,7 +26,7 @@ namespace AssemblyCSharp
 
 		public Action GetAction(){
 			if (_watch.ElapsedMilliseconds > 2000) {
-				return () => SceneManager.LoadScene (LevelNames.Next());
+				return () => SceneManager.LoadScene ("LevelSelectGreen");
 			}
 
 			return () => {
