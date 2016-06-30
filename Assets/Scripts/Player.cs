@@ -43,7 +43,7 @@ public class Player : MonoBehaviour {
 	void Update () {
 		if (_isDead) {
 			if (_afterDeathStopwatch.ElapsedMilliseconds > _waitAfterDeath) {
-				SceneManager.LoadScene (LevelNames.Current ());
+				SceneManager.LoadScene ("LevelSelectGreen");
 			}
 		}
 		if (_endOfLevel.IsEndOfLevel ()) {
