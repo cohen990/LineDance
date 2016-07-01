@@ -8,6 +8,7 @@ TagManager:
   - Node
   - enemy
   - MovingNode
+  - Bullet
   layers:
   - Default
   - TransparentFX
