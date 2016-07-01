@@ -62,6 +62,9 @@ public class Player : MonoBehaviour {
 	}
 
 	void OnTriggerEnter2D(Collider2D col){
+		if (col.gameObject.tag.ToLower () == "bullet") {
+			DoBulletTrigger (col);
+		}
 		if (col.gameObject.tag.ToLower () == "barrier") {
 			DoBarrierTrigger (col);
 		} else if (col.gameObject.tag.ToLower () == "finish") {
@@ -82,16 +85,14 @@ public class Player : MonoBehaviour {
 		}
 	}
 
+	void DoBulletTrigger (Collider2D col)
+	{
+		Die ();
+	}
+
 	void DoEnemyTrigger (Collider2D col)
 	{
-		if (!_isDead) {
-			var animator = GetComponent<Animator> ();
-			animator.Play ("Die");
-			UnityEngine.Debug.Log ("die");
-			_isDead = true;
-			_movement.AlertOfDead ();
-			_afterDeathStopwatch = Stopwatch.StartNew ();
-		}
+		Die ();
 	}
 
 	void DoFinishTrigger(Collider2D col){
@@ -136,5 +137,16 @@ public class Player : MonoBehaviour {
 			_centreOfRotation = ConnectedNodeController.NodePosition;
 		}
 		_previousCarrierPosition = ConnectedNodeController.NodePosition;
+	}
+
+	void Die ()
+	{
+		if (!_isDead) {
+			var animator = GetComponent<Animator> ();
+			animator.Play ("Die");
+			_isDead = true;
+			_movement.AlertOfDead ();
+			_afterDeathStopwatch = Stopwatch.StartNew ();
+		}
 	}
 }

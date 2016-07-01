@@ -18,3 +18,4 @@ C:\Git\LineDance\Temp\bin\Debug\UnityEngine.UI.xml
 C:\Git\LineDance\Temp\bin\Debug\UnityEngine.Networking.xml
 C:\Git\LineDance\obj\Debug\Assembly-CSharp.dll
 C:\Git\LineDance\obj\Debug\Assembly-CSharp.pdb
+C:\Git\LineDance\obj\Debug\Assembly-CSharp.csprojResolveAssemblyReference.cache
