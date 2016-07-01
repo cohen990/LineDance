@@ -24,6 +24,8 @@ public class Player : MonoBehaviour {
 	public Player(){
 	}
 
+	FactoryOverlord _overlord;
+
 	// Use this for initialization
 	void Start () {
 		_rigidBody = gameObject.GetComponent<Rigidbody2D> ();
@@ -37,13 +39,14 @@ public class Player : MonoBehaviour {
 		_endOfLevel = new EndOfLevel ();
 		_isDead = false;
 		_movement.AlertOfStartOfLevel ();
+		_overlord = GameObject.Find ("FactoryOverlord").GetComponent<FactoryOverlord> ();
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		if (_isDead) {
 			if (_afterDeathStopwatch.ElapsedMilliseconds > _waitAfterDeath) {
-				SceneManager.LoadScene ("LevelSelectGreen");
+				SceneManager.LoadScene (_overlord.CurrentLevel);
 			}
 		}
 		if (_endOfLevel.IsEndOfLevel ()) {
