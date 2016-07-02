@@ -25,18 +25,6 @@ namespace AssemblyCSharp
 		public bool IsEndOfLevel(){
 			return _hasEnded;
 		}
-
-		public Action GetAction(){
-			// This badly needs changing - need to use a coroutine instead - and put it on the overlord.
-			#error "this code is shit"
-			if (_watch.ElapsedMilliseconds > 2000) {
-				return () => SceneManager.LoadScene (_overlord.MoveNextLevel());
-			}
-
-			return () => {
-				return;
-			};
-		}
 	}
 }
 

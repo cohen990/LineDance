@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/levels/red/red1.unity
+- path: Assets/UIScenes/lineMain.unity
   isLoaded: 1
   isActive: 1

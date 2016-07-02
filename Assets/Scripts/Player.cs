@@ -11,14 +11,13 @@ public class Player : MonoBehaviour {
 	private Vector3 _centreOfRotation;
 	private MovementBase _movement;
 	private Direction _currentDirection;
-	private IEndOfLevel _endOfLevel;
 	private bool _isDead;
 	private Stopwatch _afterDeathStopwatch;
-	private int _waitAfterDeath = 2000;
 	public ControlType ControlType;
 	private bool _isBeingCarried = false;
 	private Rigidbody2D _rigidBody;
 	private Vector3 _previousCarrierPosition;
+	private bool _isEndOfLevel;
 	internal INodeController ConnectedNodeController;
 
 	public Player(){
@@ -36,21 +35,24 @@ public class Player : MonoBehaviour {
 		}
 		_movement = new AcceleratingMovement (_rigidBody, 4);
 		_centreOfRotation = _rigidBody.transform.position;
-		_endOfLevel = new EndOfLevel ();
 		_isDead = false;
+		_isEndOfLevel = false;
 		_movement.AlertOfStartOfLevel ();
-		_overlord = GameObject.Find ("FactoryOverlord").GetComponent<FactoryOverlord> ();
+		try{
+			_overlord = GameObject.Find ("FactoryOverlord").GetComponent<FactoryOverlord> ();
+		}
+		catch(Exception){
+			UnityEngine.Debug.Log("No overlord was found. Hopefully you are testing ;)");
+		}
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		if (_isDead) {
-			if (_afterDeathStopwatch.ElapsedMilliseconds > _waitAfterDeath) {
-				SceneManager.LoadScene (_overlord.CurrentScene);
-			}
+			_overlord.PlayerDie ();
 		}
-		if (_endOfLevel.IsEndOfLevel ()) {
-			_endOfLevel.GetAction ().Invoke ();
+		if (_isEndOfLevel) {
+			_overlord.MoveNextLevel ();
 			return;
 		}
 		if (_movement.IsBouncing ()) {
@@ -99,7 +101,8 @@ public class Player : MonoBehaviour {
 	}
 
 	void DoFinishTrigger(Collider2D col){
-		_endOfLevel.AlertOfEnd ();
+		_isEndOfLevel = true;
+		_overlord.KillAllEnemies ();
 		DoNodeTrigger (col.gameObject);
 	}
 
