@@ -7,7 +7,6 @@ namespace AssemblyCSharp
 	public class LevelSelectButton : MonoBehaviour
 	{
 		public string LevelName;
-		public string NextLevelName;
 
 		FactoryOverlord _overlord;
 
@@ -16,8 +15,8 @@ namespace AssemblyCSharp
 		}
 
 		public void OnClick(){
-			_overlord.SetNextLevel (NextLevelName);
 			_overlord.SetCurrentLevel (LevelName);
+			_overlord.SetPrevious (SceneManager.GetActiveScene().name);
 			SceneManager.LoadScene(LevelName);
 		}
 	}

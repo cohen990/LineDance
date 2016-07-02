@@ -6,9 +6,14 @@ namespace AssemblyCSharp
 {
 	public class BackButton : MonoBehaviour
 	{
-		public string Previous;
+		FactoryOverlord _overlord;
+
+		public void Start(){
+			_overlord = GameObject.Find ("FactoryOverlord").GetComponent<FactoryOverlord>();
+		}
+
 		public void OnClick(){
-			SceneManager.LoadScene (Previous);
+			SceneManager.LoadScene (_overlord.PreviousScene);
 		}
 	}
 }
