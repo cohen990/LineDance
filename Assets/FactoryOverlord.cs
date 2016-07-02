@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
+using AssemblyCSharp;
 
 public class FactoryOverlord : MonoBehaviour {
 
 	public string PreviousScene { get; private set; }
-	public string NextLevel  { get; private set; }
-	public string CurrentLevel  { get; private set; }
+	public string CurrentScene  { get; private set; }
 
 	void Awake () {
 		DontDestroyOnLoad(transform.gameObject);
@@ -17,13 +17,14 @@ public class FactoryOverlord : MonoBehaviour {
 		PreviousScene = sceneName;
 	}
 
-	public void SetNextLevel (string levelName)
+	public string MoveNextLevel ()
 	{
-		NextLevel = levelName;
+		var next = Levels.Get [CurrentScene] ?? PreviousScene;
+		CurrentScene = next;
+		return next;
 	}
 
 	public void SetCurrentLevel (string levelName){
-		CurrentLevel = levelName;
+		CurrentScene = levelName;
 	}
-
 }

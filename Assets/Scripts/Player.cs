@@ -46,7 +46,7 @@ public class Player : MonoBehaviour {
 	void Update () {
 		if (_isDead) {
 			if (_afterDeathStopwatch.ElapsedMilliseconds > _waitAfterDeath) {
-				SceneManager.LoadScene (_overlord.CurrentLevel);
+				SceneManager.LoadScene (_overlord.CurrentScene);
 			}
 		}
 		if (_endOfLevel.IsEndOfLevel ()) {

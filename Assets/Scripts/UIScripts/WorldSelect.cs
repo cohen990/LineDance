@@ -27,6 +27,7 @@ namespace AssemblyCSharp
 		}
 
 		public void SelectWorld(){
+			_overlord.SetPrevious (SceneManager.GetActiveScene().name);
 			SceneManager.LoadScene(WorldSceneNames[world]);
 		}
 	}
