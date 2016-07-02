@@ -10,6 +10,7 @@ namespace AssemblyCSharp
 
 		public void Connect ()
 		{
+			GetComponent<ParticleSystem> ().Stop ();
 			GetComponent<ParticleSystem> ().Play ();
 		}
 

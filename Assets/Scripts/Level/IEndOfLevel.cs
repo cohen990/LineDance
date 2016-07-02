@@ -7,8 +7,6 @@ namespace AssemblyCSharp
 		void AlertOfEnd();
 
 		bool IsEndOfLevel();
-
-		Action GetAction();
 	}
 }
 

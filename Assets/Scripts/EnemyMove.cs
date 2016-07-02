@@ -9,22 +9,24 @@ public class EnemyMove : MonoBehaviour {
 	private MovementBase _movement;
 	private Direction _currentDirection;
 	public Direction DefaultDirection;
-	public EnemyMove(){
-	}
+	private bool _isDead;
 
 	// Use this for initialization
 	void Start () {
 		_movement = new AcceleratingMovement (GetComponent<Rigidbody2D>(), 4);
 		_centreOfRotation = GetComponent<Rigidbody2D> ().transform.position;
 		_currentDirection = DefaultDirection;
+		_isDead = false;
 	}
 
 	// Update is called once per frame
 	void Update () {
-		if (_movement.IsBouncing()) {
-			_movement.Bounce (_centreOfRotation);
+		if (!_isDead) {
+			if (_movement.IsBouncing ()) {
+				_movement.Bounce (_centreOfRotation);
+			}
+			_movement.Turn (_currentDirection, _centreOfRotation);
 		}
-		_movement.Turn (_currentDirection, _centreOfRotation);
 	}
 
 	void OnTriggerEnter2D(Collider2D col){
@@ -55,5 +57,12 @@ public class EnemyMove : MonoBehaviour {
 		else if (_currentDirection == Direction.CounterClockwise) {
 			_currentDirection = Direction.Clockwise;
 		}
+	}
+
+	public void Kill ()
+	{
+		var animator = GetComponent<Animator> ();
+		animator.Play ("Die");
+		_isDead = true;
 	}
 }
