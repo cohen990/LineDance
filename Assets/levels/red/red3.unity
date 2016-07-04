@@ -533,7 +533,7 @@ Prefab:
       objectReference: {fileID: 364845334}
     - target: {fileID: 11434344, guid: 60d94aba359e085449e2c9ebb6ba5ed3, type: 2}
       propertyPath: BulletDelay
-      value: 2
+      value: 1.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 60d94aba359e085449e2c9ebb6ba5ed3, type: 2}
