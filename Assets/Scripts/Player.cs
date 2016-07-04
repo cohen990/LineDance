@@ -13,7 +13,6 @@ public class Player : MonoBehaviour {
 	private Direction _currentDirection;
 	private bool _isDead;
 	private Stopwatch _afterDeathStopwatch;
-	public ControlType ControlType;
 	private bool _isBeingCarried = false;
 	private Rigidbody2D _rigidBody;
 	private Vector3 _previousCarrierPosition;
@@ -28,10 +27,10 @@ public class Player : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		_rigidBody = gameObject.GetComponent<Rigidbody2D> ();
-		if (ControlType == ControlType.Mouse) {
-			_controls = new MouseControl ();
-		} else if (ControlType == ControlType.Touch) {
+		if(_isTouchDevice()){
 			_controls = new TouchControl ();
+		} else {
+			_controls = new MouseControl ();
 		}
 		_movement = new AcceleratingMovement (_rigidBody, 4);
 		_centreOfRotation = _rigidBody.transform.position;
@@ -154,5 +153,13 @@ public class Player : MonoBehaviour {
 			_movement.AlertOfDead ();
 			_afterDeathStopwatch = Stopwatch.StartNew ();
 		}
+	}
+
+	bool _isTouchDevice ()
+	{
+		if (Application.platform == RuntimePlatform.Android) {
+			return true;
+		}
+		return false;
 	}
 }
