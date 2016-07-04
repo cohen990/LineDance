@@ -41,3 +41,5 @@ EditorBuildSettings:
     path: Assets/levels/red/red2.unity
   - enabled: 1
     path: Assets/levels/red/red3.unity
+  - enabled: 1
+    path: Assets/levels/red/red4.unity
