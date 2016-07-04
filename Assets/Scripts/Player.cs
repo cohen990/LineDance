@@ -101,7 +101,7 @@ public class Player : MonoBehaviour {
 
 	void DoFinishTrigger(Collider2D col){
 		_isEndOfLevel = true;
-		_overlord.KillAllEnemies ();
+		_overlord.FinishLevel ();
 		DoNodeTrigger (col.gameObject);
 	}
 
