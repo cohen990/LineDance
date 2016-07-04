@@ -54,14 +54,27 @@ public class FactoryOverlord : MonoBehaviour {
 		SceneManager.LoadScene (CurrentScene);
 	}
 
-	public void KillAllEnemies(){
+	public void FinishLevel(){
 		var enemies = GameObject.FindGameObjectsWithTag ("enemy");
+		var bullets = GameObject.FindGameObjectsWithTag ("Bullet");
+		var shooters = GameObject.FindGameObjectsWithTag ("Shooter");
 
 		foreach (var enemy in enemies) {
-			gameObject.GetComponent<Animator> ();
 			var enemyController = enemy.GetComponent<EnemyMove> ();
 
 			enemyController.Kill ();
+		}
+
+		foreach (var bullet in bullets) {
+			var bulletController = bullet.GetComponent<BulletController> ();
+
+			bulletController.Kill ();
+		}
+
+		foreach (var shooter in shooters) {
+			var shooterController = shooter.GetComponent<ShooterController> ();
+
+			shooterController.Disable ();
 		}
 	}
 }
