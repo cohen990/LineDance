@@ -19,7 +19,8 @@ namespace AssemblyCSharp
 					{ "green9", null },
 					{ "red1", "red2" },
 					{ "red2", "red3" },
-					{ "red3", null  },
+					{ "red3", "red4"  },
+					{ "red4", null  },
 				};
 			}
 		}
