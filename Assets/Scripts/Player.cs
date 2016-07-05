@@ -47,6 +47,7 @@ public class Player : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		//_movement.Check
 		if (_isDead) {
 			_overlord.PlayerDie ();
 		}
