@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/UIScenes/lineMain.unity
+- path: Assets/UIScenes/LevelSelectGreen.unity
   isLoaded: 1
   isActive: 1

@@ -17,11 +17,12 @@ namespace AssemblyCSharp
 					{ "green7", "green8" },
 					{ "green8", "green9" },
 					{ "green9", "green10" },
-					{ "green10", null },
+					{ "green10", "green11" },
+					{ "green11", null },
 					{ "red1", "red2" },
 					{ "red2", "red3" },
-					{ "red3", "red4"  },
-					{ "red4", null  },
+					{ "red3", "red4" },
+					{ "red4", null },
 				};
 			}
 		}
