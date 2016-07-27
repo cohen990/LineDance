@@ -13,10 +13,12 @@ namespace AssemblyCSharp
 		private int _reenableHash = Animator.StringToHash ("Reenable");
 		public float TimeDisabledAfterDisconnect = 1.5f;
 		public bool IsEnabled { get; private set; }
+		public bool IsBeingHoveredOver { get; set; }
 
 		public void Start(){
 			_animator = GetComponent<Animator> ();
 			IsEnabled = true;
+			IsBeingHoveredOver = false;
 		}
 
 		public void Connect(){

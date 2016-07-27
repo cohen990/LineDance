@@ -7,6 +7,7 @@ namespace AssemblyCSharp
 	{
 		private Animator _animator;
 		public bool IsEnabled { get { return true; } }
+		public bool IsBeingHoveredOver {get;set;}
 
 		public void Connect ()
 		{

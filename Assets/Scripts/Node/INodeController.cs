@@ -7,6 +7,7 @@ namespace AssemblyCSharp
 	{
 		Vector3 NodePosition { get; }
 		bool IsEnabled {get;}
+		bool IsBeingHoveredOver {get;set;}
 
 		void Connect();
 

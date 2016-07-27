@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/levels/green/green7.unity
+- path: Assets/temp.unity
   isLoaded: 1
   isActive: 1
