@@ -6,6 +6,7 @@ using AssemblyCSharp.Movement;
 using System.Diagnostics;
 using UnityEngine.SceneManagement;
 using Debug = UnityEngine.Debug;
+using COC = AssemblyCSharp.CollisionObjectChecker;
 
 public class Player : MonoBehaviour {
 	private ControlBase _controls;
@@ -97,6 +98,17 @@ public class Player : MonoBehaviour {
 	void OnTriggerExit2D(Collider2D col){
 		if (col.gameObject.tag.ToLower () == "barrier") {
 			_movement.AlertOfLeavingBarrier ();
+		}
+		if (COC.IsNode(col)) {
+			var controller = col.gameObject.GetComponent<INodeController> ();
+			controller.IsBeingHoveredOver = false;
+		}
+	}
+
+	void OnTriggerStay2D(Collider2D col){
+		if(COC.IsNode(col)){
+			var controller = col.gameObject.GetComponent<INodeController> ();
+			controller.IsBeingHoveredOver = true;
 		}
 	}
 
@@ -230,12 +242,12 @@ public class Player : MonoBehaviour {
 			Debug.DrawLine(points[i], _previousFramePointsAlongLength[i]);
 			var hit = Physics2D.Raycast (points [i], _previousFramePointsAlongLength [i]);
 			if (hit.collider != null) {
-				if (hit.collider.gameObject.tag.ToLower() == "node" && hit.collider.gameObject.transform.position != ConnectedNodeController.NodePosition) {
+				if (COC.IsNode(hit.collider) && hit.collider.gameObject.transform.position != ConnectedNodeController.NodePosition) {
 					var node = hit.collider.gameObject;
 
 					var controller = node.GetComponent<INodeController> ();
 
-					if (controller.IsEnabled) {
+					if (controller.IsEnabled && !controller.IsBeingHoveredOver) {
 						return true;
 					}
 				}
