@@ -13,7 +13,7 @@ public class EnemyMove : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		_movement = new AcceleratingMovement (GetComponent<Rigidbody2D>(), 4);
+		_movement = new AcceleratingMovement (gameObject, 4);
 		_centreOfRotation = GetComponent<Rigidbody2D> ().transform.position;
 		_currentDirection = DefaultDirection;
 		_isDead = false;

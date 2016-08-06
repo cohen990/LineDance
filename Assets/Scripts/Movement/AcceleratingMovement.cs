@@ -11,7 +11,7 @@ namespace AssemblyCSharp.Movement
 
 		private bool _collided;
 
-		public AcceleratingMovement (Rigidbody2D subject, float topSpeed, float acceleration = 0.2F) : base(subject, topSpeed * 2)
+		public AcceleratingMovement (GameObject subject, float topSpeed, float acceleration = 0.2F) : base(subject, topSpeed * 2)
 		{
 			_currentSpeed = 0;
 			_lastKnownDirection = Direction.NoDirection;
