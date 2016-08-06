@@ -16,7 +16,6 @@ public class Player : MonoBehaviour {
 	private bool _isDead;
 	private Stopwatch _afterDeathStopwatch;
 	private bool _isBeingCarried = false;
-	private Rigidbody2D _rigidBody;
 	private Vector3 _previousCarrierPosition;
 	private bool _isEndOfLevel;
 	internal INodeController ConnectedNodeController;
@@ -29,14 +28,13 @@ public class Player : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		_rigidBody = gameObject.GetComponent<Rigidbody2D> ();
 		if(_isTouchDevice()){
 			_controls = new TouchControl ();
 		} else {
 			_controls = new MouseControl ();
 		}
-		_movement = new AcceleratingMovement (_rigidBody, 4);
-		_centreOfRotation = _rigidBody.transform.position;
+		_movement = new AcceleratingMovement (gameObject, 4);
+		_centreOfRotation = gameObject.transform.position;
 		_isDead = false;
 		_isEndOfLevel = false;
 		_movement.AlertOfStartOfLevel ();
@@ -70,9 +68,7 @@ public class Player : MonoBehaviour {
 
 		var currentFramePointsAlongLength = GetPointsAlongLength ();
 
-		if (CheckForMissedCollisions (currentFramePointsAlongLength)) {
-			Debug.Log ("missed collision");
-		}
+		CheckForMissedCollisions (currentFramePointsAlongLength);
 
 		_previousFramePointsAlongLength = currentFramePointsAlongLength;
 	}
@@ -161,7 +157,7 @@ public class Player : MonoBehaviour {
 	{
 		if (!_previousCarrierPosition.Equals (ConnectedNodeController.NodePosition)) {
 			var difference = ConnectedNodeController.NodePosition - _previousCarrierPosition;
-			_rigidBody.transform.position += difference;
+			gameObject.transform.position += difference;
 			_centreOfRotation = ConnectedNodeController.NodePosition;
 		}
 		_previousCarrierPosition = ConnectedNodeController.NodePosition;
@@ -232,28 +228,33 @@ public class Player : MonoBehaviour {
 		return arr;
 	}
 
-	bool CheckForMissedCollisions (Vector3[] points)
+	void CheckForMissedCollisions (Vector3[] points)
 	{
 		if (_previousFramePointsAlongLength == null || points == null) {
-			return false;
+			return;
 		}
 
 		for (var i = 0; i < points.Length; i++) {
 			Debug.DrawLine(points[i], _previousFramePointsAlongLength[i]);
 			var hit = Physics2D.Raycast (points [i], _previousFramePointsAlongLength [i]);
 			if (hit.collider != null) {
+				if(COC.IsNode(hit.collider) && ConnectedNodeController == null){
+					_movement.SnapToCentre (hit.collider.gameObject.transform.position, _centreOfRotation);
+					Debug.Log("snapping to missed node");
+					return;
+				}
 				if (COC.IsNode(hit.collider) && hit.collider.gameObject.transform.position != ConnectedNodeController.NodePosition) {
 					var node = hit.collider.gameObject;
 
 					var controller = node.GetComponent<INodeController> ();
 
 					if (controller.IsEnabled && !controller.IsBeingHoveredOver) {
-						return true;
+						_movement.SnapToCentre (hit.collider.gameObject.transform.position, _centreOfRotation);
+						Debug.Log("snapping to missed node");
+						return;
 					}
 				}
 			}
 		}
-
-		return false;
 	}
 }

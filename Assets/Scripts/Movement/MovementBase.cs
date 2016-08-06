@@ -12,9 +12,9 @@ namespace AssemblyCSharp.Movement
 		private bool _isBouncing;
 		protected Direction _directionOfBarrier;
 		protected bool _canMove;
-		protected Rigidbody2D _target;
+		protected GameObject _target;
 
-		public MovementBase(Rigidbody2D target, float topSpeed){
+		public MovementBase(GameObject target, float topSpeed){
 			_topSpeed = topSpeed;
 			_bounceDeceleration = 0.4F;
 			_currentSpeed = topSpeed;

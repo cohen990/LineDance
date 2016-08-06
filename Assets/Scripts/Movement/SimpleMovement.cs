@@ -5,7 +5,7 @@ namespace AssemblyCSharp.Movement
 {
 	public class SimpleMovement : MovementBase
 	{
-		public SimpleMovement (Rigidbody2D subject, float topSpeed) : base(subject, topSpeed)
+		public SimpleMovement (GameObject subject, float topSpeed) : base(subject, topSpeed)
 		{
 		}
 

@@ -5,7 +5,7 @@ namespace AssemblyCSharp.Movement
 {
 	public class RandomizedMovement : MovementBase
 	{
-		public RandomizedMovement (Rigidbody2D subject, float topSpeed) : base(subject, topSpeed)
+		public RandomizedMovement (GameObject subject, float topSpeed) : base(subject, topSpeed)
 		{
 		}
 
